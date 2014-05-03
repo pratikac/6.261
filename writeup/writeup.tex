@@ -1,11 +1,8 @@
-\documentclass[letterpaper, 10 pt, conference]{ieeeconf}
-
-\IEEEoverridecommandlockouts
-\overrideIEEEmargins
+\documentclass[letterpaper, 10pt, twocolumn, reqno, fleqn]{amsart}
 
 \usepackage{mathpazo}
-
 \include{./macros}
+\usepackage[margin=1in]{geometry}
 
 \newcommand{\algsize}{\footnotesize}
 \setlength{\floatsep}{0.0in}
@@ -17,21 +14,20 @@
 \setlength{\belowdisplayskip}{0.05in}
 
 
-\title{\bf Phase transitions in random $k$-SAT}
-\author{Pratik Chaudhari$^*$\\[0.05in] 6.261 Project
-\thanks{$^*$ Laboratory of Information and Decision Systems, MIT.
-\newline Email: \href{pratik.ac@gmail.com}{pratik.ac@gmail.com}}
-}
+\title{Phase transitions in random $k$-SAT}
+\author{Pratik Chaudhari$^*$}
+\thanks{$^*$ Laboratory of Information and Decision Systems, MIT.\newline
+Email: \href{pratik.ac@gmail.com}{pratik.ac@gmail.com}}
+\date{May 3, 2014}
 
 \begin{document}
-\maketitle
-\thispagestyle{empty}
-\pagestyle{empty}
-
 \begin{abstract}
-a
+It can be shown that there exists a sharp threshold $\alpha_c(k)$ for the ratio $m/n$ beyond which, an $m$-clause formula with $n$ variables and $k$ variables in each clause becomes unsatisfiable with high probability. The first part of this project will discuss bounds for $\alpha_c(k)$ using the second moment method.
+%
+Next, we discuss the phenomenon of ``dynamical phase transition'' from a statistical physics perspective, wherein the solution space in $k$-SAT transitions into the ``glassy'' phase. Using these concepts, we discuss an algorithm known as ``survey propagation'', which uses 1-step replica symmetry breaking to exploit the glassy structure of the solution space.
 \end{abstract}
+\maketitle
 
+\Blindtext
 
 \end{document}
-

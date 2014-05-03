@@ -1,15 +1,10 @@
-\usepackage{amsmath, amsfonts, amssymb, bm, enumerate, url, setspace}
-\usepackage[boxruled, vlined, linesnumbered]{algorithm2e}
+\usepackage{amsmath, amsthm, amssymb, bm, enumerate, url, setspace}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \usepackage[pdftex, xetex]{graphicx}
 \usepackage[font={small}]{caption}
 \usepackage{float, colortbl, tabularx, multirow, subcaption, environ, wrapfig, textcomp}
 \usepackage[normalem]{ulem}
 
-\usepackage{pgf, tikz, framed}
-%\usetikzlibrary{arrows,positioning,automata,shadows,fit,shapes}
-
-\usepackage[english]{babel}
 \usepackage{blindtext}
 
 \usepackage[bookmarks=true]{hyperref}
@@ -20,7 +15,7 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \usepackage{url, cite}
 
 \newcommand{\pc}[2]{{\color{blue} #1}\marginpar{\tiny\noindent{\raggedright{\color{darkgreen}[PC]}\color{brown}{ #2} \par}}}
-\newcommand{\mtodo}[1]{{\color{gray}#1}\marginpar{\tiny\noindent{\raggedright{\color{darkgreen}[MILD TODO]}}}}
+\newcommand{\todo}[1]{{\color{gray}#1}\marginpar{\tiny\noindent{\raggedright{\color{darkgreen}[MILD TODO]}}}}
 
 %\newcommand{\myclearpage}{\clearpage}
 \newcommand{\myclearpage}{}
@@ -29,7 +24,7 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \newcommand{\abs}[1]{\ensuremath \left| #1 \right|}
 \newcommand{\norm}[1]{\ensuremath \lVert#1\rVert}
 \newcommand{\given}{\, \vert \,}
-\renewcommand{\cal}[1]{\ensuremath \mathcal{#1}}
+\providecommand{\cal}[1]{\ensuremath \mathcal{#1}}
 \newcommand{\ag}[1]{\ensuremath \left\langle#1\right\rangle}
 
 % shorcuts
@@ -39,7 +34,6 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \newcommand{\beqs}[1]{\begin{equation*}#1\end{equation*}}
 \newcommand{\trm}[1]{\ensuremath \textrm{#1}}
 \newcommand{\enum}[2]{\begin{enumerate}[#1]{#2}\end{enumerate}}
-\newcommand{\ilist}[1]{\begin{itemize}{#1}\end{itemize}}
 \newcommand{\clist}[1]{\begin{itemize}\setlength{\itemsep}{0pt}
 \setlength{\parsep}{0pt}
 {#1}\end{itemize}}
@@ -49,10 +43,7 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \newcommand{\la}{\leftarrow}
 \newcommand{\ra}{\rightarrow}
 
-% theorems
-\usepackage{theorem}
 \newtheorem{theorem}{Theorem}
-
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
