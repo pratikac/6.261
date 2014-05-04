@@ -1,9 +1,9 @@
-\documentclass[letterpaper, 10pt, twocolumn, reqno, fleqn]{amsart}
+\documentclass[letterpaper, 10pt, twocolumn, reqno]{amsart}
 
 \usepackage{mathpazo}
 \include{./macros}
 \usepackage[margin=0.75in]{geometry}
-\linespread{1.02}
+\linespread{1.05}
 
 \newcommand{\algsize}{\footnotesize}
 \setlength{\floatsep}{0.0in}
@@ -31,26 +31,23 @@ Next, we discuss the phenomenon of ``dynamical phase transition'' from a statist
 
 \section{Introduction}
 In recent years, it has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science such as satisfiability, error correcting codes etc. A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
-$$
-\ones \ones
-$$
 
 
-We can get a simple lower bound for $r$. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.
+\todo{We can get a simple lower bound for $r$. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.}
 
 \section{Setup}
 \label{sec:setup}
 A $k$-clause is a disjunction of $k$ Boolean variables, given $n$ Boolean
 variables, a random $k$-CNF forumla, $F_k(n, m)$ is formed by conjunction of $m = rn$ such $k$-clauses, selected uniformly and independently with
 replacement from the set of all $k$-clauses on these $n$ variables. We assume that all formulae are in CNF and in turn, this model is called $\ksat$. Also,
-let $r_k = \sup \{ r: F_k(n, rm) \in \SAT \}$ and $r_k^* = \inf \{ r: F_k(n, rn) \not\in \SAT \}$. We know that $r_k < r_k^*$ and in Sec.~\ref{sec:sat_thresh}
+let $r_k = \sup \{ r: F_k(n, rm) \in \SAT \}$ and $r_k^* = \inf \{ r: F_k(n, rn) \not\in \SAT \}$. Note that we always talk of $F_k(n,rn) \in \SAT$ with high probability, i.e., $\lim_{n\to \infty} \P(F_k(n,rn) \in \SAT) = 1$ if $r < r_k$.
+
+We know that $r_k < r_k^*$ and in Sec.~\ref{sec:sat_thresh}
  we will show that $r_k = r_k^*(1-\smallo(1))$. We will also show that
 \beq{
 r_k \geq 2^k \log2 - (k+1)\f{\log2}{2} - \bigo(1).
 \label{eqn:r_k_exact}
 }
-Note that we always talk of $F_k(n,rn) \in \SAT$ with high probability, i.e., $\lim_{n\to \infty} \P(F_k(n,rn) \in \SAT) \to 1$ if $r < r_k$.
-
 
 \section{Satisfiability threshold}
 \label{sec:sat_thresh}
@@ -60,13 +57,91 @@ Note that we always talk of $F_k(n,rn) \in \SAT$ with high probability, i.e., $\
 \label{ssec:2sat}
 2-SAT has a special structure, observe that $\n{x_1} \oor x_2$ is equivalent to $x_1 \implies x_2$, i.e., given $F_2(n, rn)$, we can construct a graph with
 vertices $x_1, \n{x_1}, x_2, \ldots, \n{x_n}$ and an edge from $x_1$ to $x_2$ and $\n{x_2}$ to $\n{x_1}$. It can be shown that $F_2(n,rn) \notin \SAT$ iff
-there exists a path from some $x_k$ to $\n{x_k}$ and from $\n{x_k}$ to $x_k$, i.e., a bicycle. Let the length of this bicyle be $s$ if the path $(u, w_1, w_2
+there exists a path from some $x_k$ to $\n{x_k}$ and from $\n{x_k}$ to $x_k$, i.e., a bicycle. Let the length of this bicycle be $s$ if the path $(u, w_1, w_2
 , \ldots, w_s, v)$ with $u,v \in \{w_1, \ldots, w_s,\n{w_1}, \ldots, \n{w_s}\}$
  exists. The probability of this happening is
 $$
 \P(F_2(n,rn) \notin \SAT) \leq \sum_{s=2}^n {n \choose s} s^2 (2s)^2 {m \choose s+1} \rbrac{\f{1}{4 {n \choose 2}}}^{s+1}
 $$
-It is easy to see that this is $\bigo(1/N)$ iff $r <1$, i.e., $r_2^* < 1$. Using Eqn.~\eqref{eqn:r_k_exact} we see that $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$.
+It is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e., $r_2^* < 1$. Using Eqn.~\eqref{eqn:r_k_exact} we see that $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$.
+
+\subsection{Vanilla second moment for $\ksat$}
+\label{ssec:ksat_vanilla}
+The idea behind this section is to get a non-zero lower bound in the limit for $P(X > 0)$, where $X$ is the number of solutions of random $\ksat$. We can then use the inequality $P(X>0) \geq \E[X]^2/\E[X^2]$. It is however instructive to note that we cannot weigh each satisfying assignment equally, the bounds are too loose that way. Let us briefly review why.
+
+For a random formula $F$, let $\sf$ be the set of satisfying assignments and let $X = \abs{\sf}$. If $F = c_1 \aand c_2 \ldots c_m$, we have
+\aeqs{
+\E[X^2] &= \E\sqbrac{\rbrac{\sum_\s \ind_{\s \in \sf}}^2} &&= \E\sqbrac{\sum_{\s,\t} \ind_{\s,\t \in \sf}} \\
+&= \sum_{\s,\t} \E \sqbrac{\prod_c \ind_{\s,\t \in \sc}} &&= \sum_{\s,\t} \prod_c \E[\ind_{\s,\t \in \sc}].
+}
+We can now see that
+$$
+\P(\s,\t \in \sc) = 1 -2^{1-k} - 2^{-k}\a^k = f_s(\a)
+$$
+where $\s$ and $\t$ assign the same value to $z = \a n$ variables. This follows because if $\s \not\sat c$, the only way for $\t \not\in c$ is for all $k$ variables in $c$ to lie in the overlap. $f_S$ thus quantifies the correlation between $\s,\t$ being satisfying. We now have
+$$
+\E[X^2] = 2^n \sum_{z=0}^n {n \choose z} f_S(\a)^m,
+$$
+whereupon, using ${n \choose z} = \rbrac{\a^\a (1-\a)^{1-\a}}^{-n} poly(n)$, we have
+\aeqs{
+\E[X^2] &\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_S(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \\
+&:= \rbrac{\max_{0 \leq \a \leq 1} \L_S(\a)}^n poly(n).
+}
+
+At the same time, note that
+$$
+\E[X]^2 = \rbrac{2^n \rbrac{1 - 2^{-k}}^m }^2 = \L_S(1/2)^n,
+$$
+and hence even if we have some $\a \in [0,1]$ with $\L_S(\a) > \L_S(1/2)$ the
+the second moment is exponentially greater than the square of the first moment and hence we have an exponentially smaller lower bound on $\P(X > 0)$. In
+other words, we need to reduce the contribution to $E[X^2]$ from $\s,\t$ with overlap of $\a > 1/2$. Work on Not All Equal-SAT, i.e., every clause has at
+least one satisfied and one unsatisfied literal gives some clues. For $\NAESAT$, we have
+$$
+\P(\s,\t \in \NAESAT) = 1 - 2^{2-k} + 2^{1-k} \rbrac{\a^k + (1-\a)^k}
+$$
+which is symmetric about $\a = 1/2$ and as a result, $\L_N(\a)$ has a maxima at $1/2$ for $r \leq 2^{k-1} \log2 -1$. It was shown in~\cite{achlioptas2002asymptotic} that for $r \geq 2^{k-1} \log2$, $\NAESAT$ is not satisfiable, i.e., the second moment method actually gives bounds within additive constant.
+
+\subsection{Weighted second moment for $\ksat$}
+\label{ssec:ksat_weighted}
+We next use this intuition to construct a weighted second moment method. Let $\wsf$ be some weighing function and $\wsf = 0$ if $\s \notin \sf$. Let
+$$X = \sum_\s \wsf = \sum_\s \prod_c \wsc$$
+which still works because if we can prove $\E[X^2] = \bigo\rbrac{\E[X]^2}$, we will still have $\P(X > 0) = \P(\abs{\sf} > 0)$. Again,
+\aeqs{
+\E[X]^2 &= 2^n \rbrac{\E[\wsc]}^m \\
+\E[X^2] %&= \sum_{\s,\t} \prod_c \E[\wsc \wtc]
+&= \sum_{\s,\t} \rbrac{\E[\wsc \wtc]}^m
+}
+where the clause $c = \ell_1 \aand \ldots \aand \ell_k$ is random. We want $\wsc$ to be independent of variable labels, so let it be $\wsc = \wv$ where $v_i =1$ if $\s \sat \ell_i$ and $-1$ otherwise.
+
+$v \in A = \{-1,1\}^k$ and since the literals are drawn uniformly and independently, we have
+$$
+\E[\wsc] = \sum_{v \in A} \wv 2^{-k}.
+$$
+Similarly for $\s, \t$ with an overlap of $z =\a n$,
+\aeqs{
+\E[\wsc \wtc] &= \sum_{u,v \in A} \wu \wv 2^{-k}\ \prod_{i=1}^k \a^{\ind_{u_i = v_i}} (1-\a)^{\ind_{u_i \neq v_i}} \\
+&:= \sum_{u,v \in A} \wu \wv \puva := f_w(\a).
+}
+Again, we have
+\aeqs{
+\E[X^2] &= 2^n \sum_{z=0}^n {n \choose z} f_w(\a)^m \\
+&\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_w(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \\
+&:= \rbrac{\max_{0 \leq \a \leq 1} \L_w(\a)}^n poly(n)
+}
+and $\E[X]^2 = \L_w(1/2)^n$. There are two aspects of the above expression which will help us get $\E[X^2]/\E[X]^2 = \bigo(1)$. $\L_w(\a)$ has a global maximum at $1/2$ and the $poly(n)$ factor above is instead $\bigo(1)$. The former requires that $f_w'(1/2) =0$. We thus have
+\aeqs{
+f_w'(\a) &= \sum_{u,v \in A} \wu \wv \puva \sqbrac{\log \puva}' \\
+&= \sum_{u,v \in A} \wu \wv \puva \sum_{i=1}^k\ \rbrac{\f{\ind_{u_i = v_i}}{\a} - \f{\ind_{u_i \neq v_i}}{1-\a}} \\
+2^{2k-1} f_w'(\a) &= \sum_{u,v \in A} \wu \wv u v \\
+&= \rbrac{\sum_u \wu u}\rbrac{\sum_v \wu v}.
+}
+Therefore for any $w$, we need
+\beq{
+f_w'(1/2) = 0 \implies \sum_{v \in A} \wv v = 0.
+\label{eqn:wv_sum}
+}
+It is now apparent that the real reason why the calculations in Sec.~\ref{ssec:ksat_vanilla} failed was because $w(\cdot)$ assigns 0 to $(-1,\ldots,-1)$ and $1/(2^k-1)$ to all other vectors. On the other hand, for $\NAESAT$, $w$ assigns 0 to both $(-1,\ldots,-1)$ and $(1,\ldots,1)$ and hence satisfies Eqn.~\eqref{eqn:wv_sum}.
+
 
 
 {
