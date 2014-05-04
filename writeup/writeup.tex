@@ -2,7 +2,8 @@
 
 \usepackage{mathpazo}
 \include{./macros}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.75in]{geometry}
+\linespread{1.02}
 
 \newcommand{\algsize}{\footnotesize}
 \setlength{\floatsep}{0.0in}
@@ -28,6 +29,49 @@ Next, we discuss the phenomenon of ``dynamical phase transition'' from a statist
 \end{abstract}
 \maketitle
 
-\Blindtext
+\section{Introduction}
+In recent years, it has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science such as satisfiability, error correcting codes etc. A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
+$$
+\ones \ones
+$$
 
+
+We can get a simple lower bound for $r$. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.
+
+\section{Setup}
+\label{sec:setup}
+A $k$-clause is a disjunction of $k$ Boolean variables, given $n$ Boolean
+variables, a random $k$-CNF forumla, $F_k(n, m)$ is formed by conjunction of $m = rn$ such $k$-clauses, selected uniformly and independently with
+replacement from the set of all $k$-clauses on these $n$ variables. We assume that all formulae are in CNF and in turn, this model is called $\ksat$. Also,
+let $r_k = \sup \{ r: F_k(n, rm) \in \SAT \}$ and $r_k^* = \inf \{ r: F_k(n, rn) \not\in \SAT \}$. We know that $r_k < r_k^*$ and in Sec.~\ref{sec:sat_thresh}
+ we will show that $r_k = r_k^*(1-\smallo(1))$. We will also show that
+\beq{
+r_k \geq 2^k \log2 - (k+1)\f{\log2}{2} - \bigo(1).
+\label{eqn:r_k_exact}
+}
+Note that we always talk of $F_k(n,rn) \in \SAT$ with high probability, i.e., $\lim_{n\to \infty} \P(F_k(n,rn) \in \SAT) \to 1$ if $r < r_k$.
+
+
+\section{Satisfiability threshold}
+\label{sec:sat_thresh}
+
+
+\subsection{2-SAT}
+\label{ssec:2sat}
+2-SAT has a special structure, observe that $\n{x_1} \oor x_2$ is equivalent to $x_1 \implies x_2$, i.e., given $F_2(n, rn)$, we can construct a graph with
+vertices $x_1, \n{x_1}, x_2, \ldots, \n{x_n}$ and an edge from $x_1$ to $x_2$ and $\n{x_2}$ to $\n{x_1}$. It can be shown that $F_2(n,rn) \notin \SAT$ iff
+there exists a path from some $x_k$ to $\n{x_k}$ and from $\n{x_k}$ to $x_k$, i.e., a bicycle. Let the length of this bicyle be $s$ if the path $(u, w_1, w_2
+, \ldots, w_s, v)$ with $u,v \in \{w_1, \ldots, w_s,\n{w_1}, \ldots, \n{w_s}\}$
+ exists. The probability of this happening is
+$$
+\P(F_2(n,rn) \notin \SAT) \leq \sum_{s=2}^n {n \choose s} s^2 (2s)^2 {m \choose s+1} \rbrac{\f{1}{4 {n \choose 2}}}^{s+1}
+$$
+It is easy to see that this is $\bigo(1/N)$ iff $r <1$, i.e., $r_2^* < 1$. Using Eqn.~\eqref{eqn:r_k_exact} we see that $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$.
+
+
+{
+\small
+\bibliography{writeup}
+\bibliographystyle{abbrv}
+}
 \end{document}

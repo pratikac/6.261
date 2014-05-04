@@ -8,14 +8,14 @@
 \usepackage{blindtext}
 
 \usepackage[bookmarks=true]{hyperref}
-\usepackage[hyperpageref]{backref}
+%\usepackage[hyperpageref]{backref}
 \hypersetup{
 colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolor=blue,
 }
 \usepackage{url, cite}
 
 \newcommand{\pc}[2]{{\color{blue} #1}\marginpar{\tiny\noindent{\raggedright{\color{darkgreen}[PC]}\color{brown}{ #2} \par}}}
-\newcommand{\todo}[1]{{\color{gray}#1}\marginpar{\tiny\noindent{\raggedright{\color{darkgreen}[MILD TODO]}}}}
+\newcommand{\todo}[1]{{\color{gray}#1}\marginpar{\tiny\noindent{\raggedright{\color{forestgreen}[MILD TODO]}}}}
 
 %\newcommand{\myclearpage}{\clearpage}
 \newcommand{\myclearpage}{}
@@ -42,6 +42,9 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \begin{minipage}{#1}#2\end{minipage}\end{center}}
 \newcommand{\la}{\leftarrow}
 \newcommand{\ra}{\rightarrow}
+\providecommand\f[2]{\ensuremath \frac{#1}{#2}}
+\providecommand\rbrac[1]{\ensuremath \left(#1\right)}
+\providecommand\sqbrac[1]{\ensuremath \left[#1\right]}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -64,3 +67,17 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \renewenvironment{proof}
 {\myoldproof\color{gray}}
 {\myoldendproof}
+
+% notation
+\renewcommand{\P}{\trm{P}}
+\renewcommand{\E}{\trm{E}}
+\providecommand{\ones}{\mathbb{1}}
+\providecommand{\SAT}{\trm{SAT}}
+\providecommand\sat{\models}
+\providecommand\bigo{O}
+\providecommand\smallo{o}
+\providecommand\ksat{k\trm{-SAT}}
+\providecommand\n[1]{\overline{#1}}
+\providecommand{\oor}{\vee}
+\providecommand{\aand}{\wedge}
+%\providecommand{\implies}{\rightarrow}
