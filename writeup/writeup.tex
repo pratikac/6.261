@@ -65,6 +65,8 @@ By direct summation, it is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e
 
 \subsection{Vanilla second moment for $\ksat$}
 \label{ssec:ksat_vanilla}
+To get a ball-park estimate, let us compute a simple upper bound for the phase transition. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.
+
 The idea behind this section is to get a non-zero lower bound in the limit for $P(X > 0)$, where $X$ is the number of solutions of random $\ksat$. We can then use the inequality $P(X>0) \geq \E[X]^2/\E[X^2]$. It is however instructive to note that we cannot weigh each satisfying assignment equally, the bounds are too loose that way. Let us briefly review why.
 
 For a random formula $F$, let $\sf$ be the set of satisfying assignments and let $X = \abs{\sf}$. If $F = c_1 \aand c_2 \ldots c_m$, we have
@@ -171,10 +173,6 @@ Note that the second term is off by a factor of 4 as compared to Eqn.~\eqref{eqn
 \subsection{Sharper bounds using measure transform}
 \label{ssec:sharper_bounds}
 
-\subsection{Upper bound}
-\label{ssec:upper_bound}
-\todo{We can get a simple upper bound for the phase transition. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.}
-
 \begin{remark}
 \todo{talk about the ``mist'' in the solution space}
 \end{remark}
@@ -182,16 +180,11 @@ Note that the second term is off by a factor of 4 as compared to Eqn.~\eqref{eqn
 \section{Dynamical phase transition}
 \label{sec:dynamical_transition}
 
-\section{1-step replica symmetry breaking}
-\label{sec:1rsb}
-
-\section{Summary}
-\label{sec:summary}
-
-\section{Dynamical phase transitions}
-\label{sec:dyn_transitions}
-
-We describe a few results about the geometry of the solution space of random $\ksat$. The motivation for these results comes from the following --- A very simple algorithm can find satisfying assignments for $r = \bigo(2^k/k)$ with high probability, it simply assigns a random value to a randomly unassigned variable and simplifies the clauses. In fact an algorithm based on belief propagation can solve instances upto $r = \bigth(2^k \log k/k)$ using an idea known as ``decimation''~\cite{montanari2007solving}. In Sec.~\ref{sec:sat_thresh}, we saw that $\ksat$ is in fact satisfiable for far more after that; it has solutions (w.h.p) until $r = 2^k \log 2 - O(k)$. This apparent discrepancy can be resolved with the following theorem towards which we work in this section.
+We describe a few results about the geometry of the solution space of random $\ksat$. The motivation for these results comes from the following --- a very
+simple algorithm can find satisfying assignments for $r = \bigo(2^k/k)$ with
+high probability, it simply assigns a random value to a randomly unassigned variable and simplifies the clauses. In fact an algorithm based on belief
+propagation can solve instances upto $r = \bigth(2^k \log k/k)$ using an idea known as ``decimation''~\cite{montanari2007solving}. In Sec.~\ref{sec:sat_thresh}, we saw that $\ksat$ is in fact satisfiable for far more after that; it has solutions (w.h.p) until $r = 2^k \log 2 - O(k)$. This apparent discrepancy can
+be resolved with the following theorem towards which we work in this section.
 \begin{theorem}
 There exists a sequence $\e_k \to 0$ such that $\sf$ shatters for all
 $$
@@ -200,11 +193,27 @@ $$
 \label{thm:shatter}
 \end{theorem}
 %
-It turns out that the solution space, i.e., $\sf$ looks like a giant ball until $r = \bigo(2^k/k)$ and shatters into exponentially many clusters with exponentially small number of solutions in each as $r$ increases. Towards that end, let us define a few notions about the solution space.
+It turns out that the solution space, i.e., $\sf$ looks like a giant ball
+until $r = \bigo(2^k/k)$ and shatters into exponentially many clusters with
+exponentially small number of solutions in each as $r$ increases. Towards that end, let us define a few notions about the solution space.
 \clist{
-	\item We will use the Hamming distance between two satisfying instances $\s,\t$ and say that they are adjacent if $\abs{\s-\t} = 1$. \pc{A region is then the union of connected components of $\sf$.}{?}
-	\item The set of solutions $\sf$ ``shatters'' if there exist $\b, \g, \zeta > 0$ s.t. w.h.p $\sf$ can be partitioned into at least $e^{\b n}$ regions with each region containing at most $e^{\g n}$ fraction of solutions, and the distance between any two regions is at least $\zeta n$. We also require that every path between two solutions $\s, \t$ in distinct regions has a ``height'' at least $\th n$, i.e., maximum number of clauses violated by any sequence $\s, \s_1, \ldots, \s_n, \t$ with at most unit distance between consecutive elements.
+    \item We will use the Hamming distance between two satisfying instances $\s,\t$ and say that they are adjacent if $\abs{\s-\t} = 1$. \pc{A region is then the union of connected components of $\sf$.}{?}
+    \item The set of solutions $\sf$ ``shatters'' if there exist $\b, \g, \zeta > 0$ s.t. w.h.p,
+    \clist{
+    \item $\sf$ can be partitioned into at least $e^{\b n}$ regions with each region containing at most $e^{\g n}$ fraction of solutions;
+    \item any two regions are at least $\zeta n$ apart;
+    \item  every path between two solutions $\s, \t$ in distinct regions has a ``height'' at least $\th n$, i.e., maximum number of clauses
+    violated by any sequence $\s, \s_1, \ldots, \s_n, \t$ with at most unit distance between consecutive elements.
+    }
 }
+
+
+\section{1-step replica symmetry breaking}
+\label{sec:1rsb}
+
+\section{Summary}
+\label{sec:summary}
+
 
 
 {
