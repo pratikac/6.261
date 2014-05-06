@@ -188,6 +188,23 @@ Note that the second term is off by a factor of 4 as compared to Eqn.~\eqref{eqn
 \section{Summary}
 \label{sec:summary}
 
+\section{Dynamical phase transitions}
+\label{sec:dyn_transitions}
+
+We describe a few results about the geometry of the solution space of random $\ksat$. The motivation for these results comes from the following --- A very simple algorithm can find satisfying assignments for $r = \bigo(2^k/k)$ with high probability, it simply assigns a random value to a randomly unassigned variable and simplifies the clauses. In fact an algorithm based on belief propagation can solve instances upto $r = \bigth(2^k \log k/k)$ using an idea known as ``decimation''~\cite{montanari2007solving}. In Sec.~\ref{sec:sat_thresh}, we saw that $\ksat$ is in fact satisfiable for far more after that; it has solutions (w.h.p) until $r = 2^k \log 2 - O(k)$. This apparent discrepancy can be resolved with the following theorem towards which we work in this section.
+\begin{theorem}
+There exists a sequence $\e_k \to 0$ such that $\sf$ shatters for all
+$$
+(1 + \e_k) \f{2^k}{k} \log k \leq r \leq (1-\e_k) 2^k \log 2.
+$$
+\label{thm:shatter}
+\end{theorem}
+%
+It turns out that the solution space, i.e., $\sf$ looks like a giant ball until $r = \bigo(2^k/k)$ and shatters into exponentially many clusters with exponentially small number of solutions in each as $r$ increases. Towards that end, let us define a few notions about the solution space.
+\clist{
+	\item We will use the Hamming distance between two satisfying instances $\s,\t$ and say that they are adjacent if $\abs{\s-\t} = 1$. \pc{A region is then the union of connected components of $\sf$.}{?}
+	\item The set of solutions $\sf$ ``shatters'' if there exist $\b, \g, \zeta > 0$ s.t. w.h.p $\sf$ can be partitioned into at least $e^{\b n}$ regions with each region containing at most $e^{\g n}$ fraction of solutions, and the distance between any two regions is at least $\zeta n$. We also require that every path between two solutions $\s, \t$ in distinct regions has a ``height'' at least $\th n$, i.e., maximum number of clauses violated by any sequence $\s, \s_1, \ldots, \s_n, \t$ with at most unit distance between consecutive elements.
+}
 
 
 {
