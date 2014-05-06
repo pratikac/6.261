@@ -33,8 +33,6 @@ Next, we discuss the phenomenon of ``dynamical phase transition'' from a statist
 In recent years, it has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science such as satisfiability, error correcting codes etc. A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
 
 
-\todo{We can get a simple lower bound for $r$. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.}
-
 \section{Setup}
 \label{sec:setup}
 A $k$-clause is a disjunction of $k$ Boolean variables, given $n$ Boolean
@@ -63,7 +61,7 @@ there exists a path from some $x_k$ to $\n{x_k}$ and from $\n{x_k}$ to $x_k$, i.
 $$
 \P(F_2(n,rn) \notin \SAT) \leq \sum_{s=2}^n {n \choose s} s^2 (2s)^2 {m \choose s+1} \rbrac{\f{1}{4 {n \choose 2}}}^{s+1}
 $$
-It is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e., $r_2^* < 1$. Using Eqn.~\eqref{eqn:r_k_exact} we see that $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$.
+By direct summation, it is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e., $r_2^* < 1$. Using Eqn.~\eqref{eqn:r_k_exact} we see that $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$.
 
 \subsection{Vanilla second moment for $\ksat$}
 \label{ssec:ksat_vanilla}
@@ -103,9 +101,9 @@ which is symmetric about $\a = 1/2$ and as a result, $\L_N(\a)$ has a maxima at 
 
 \subsection{Weighted second moment for $\ksat$}
 \label{ssec:ksat_weighted}
-We next use this intuition to construct a weighted second moment method. Let $\wsf$ be some weighing function and $\wsf = 0$ if $\s \notin \sf$. Let
+We next use this intuition to construct a weighted second moment method. Let $\wsf$ be some function and $\wsf = 0$ if $\s \notin \sf$. Let $\wsf$ factor exactly over the clauses to give
 $$X = \sum_\s \wsf = \sum_\s \prod_c \wsc$$
-which still works because if we can prove $\E[X^2] = \bigo\rbrac{\E[X]^2}$, we will still have $\P(X > 0) = \P(\abs{\sf} > 0)$. Again,
+which still works for us because if we can prove $\E[X^2] = \bigo\rbrac{\E[X]^2}$, we will still have $\P(X > 0) = \P(\abs{\sf} > 0)$. Again,
 \aeqs{
 \E[X]^2 &= 2^n \rbrac{\E[\wsc]}^m \\
 \E[X^2] %&= \sum_{\s,\t} \prod_c \E[\wsc \wtc]
@@ -119,7 +117,7 @@ $$
 $$
 Similarly for $\s, \t$ with an overlap of $z =\a n$,
 \aeqs{
-\E[\wsc \wtc] &= \sum_{u,v \in A} \wu \wv 2^{-k}\ \prod_{i=1}^k \a^{\ind_{u_i = v_i}} (1-\a)^{\ind_{u_i \neq v_i}} \\
+\E[\wsc \wtc] &= \sum_{u,v \in A} \wu \wv 2^{-k} \prod_{i=1}^k \a^{\ind_{u_i = v_i}} (1-\a)^{\ind_{u_i \neq v_i}} \\
 &:= \sum_{u,v \in A} \wu \wv \puva := f_w(\a).
 }
 Again, we have
@@ -133,14 +131,62 @@ and $\E[X]^2 = \L_w(1/2)^n$. There are two aspects of the above expression which
 f_w'(\a) &= \sum_{u,v \in A} \wu \wv \puva \sqbrac{\log \puva}' \\
 &= \sum_{u,v \in A} \wu \wv \puva \sum_{i=1}^k\ \rbrac{\f{\ind_{u_i = v_i}}{\a} - \f{\ind_{u_i \neq v_i}}{1-\a}} \\
 2^{2k-1} f_w'(\a) &= \sum_{u,v \in A} \wu \wv u v \\
-&= \rbrac{\sum_u \wu u}\rbrac{\sum_v \wu v}.
+&= \rbrac{\sum_u \wu u}\rbrac{\sum_v \wv v}.
 }
 Therefore for any $w$, we need
 \beq{
 f_w'(1/2) = 0 \implies \sum_{v \in A} \wv v = 0.
 \label{eqn:wv_sum}
 }
-It is now apparent that the real reason why the calculations in Sec.~\ref{ssec:ksat_vanilla} failed was because $w(\cdot)$ assigns 0 to $(-1,\ldots,-1)$ and $1/(2^k-1)$ to all other vectors. On the other hand, for $\NAESAT$, $w$ assigns 0 to both $(-1,\ldots,-1)$ and $(1,\ldots,1)$ and hence satisfies Eqn.~\eqref{eqn:wv_sum}.
+
+It is now evident that the real reason why the calculations in Sec.~\ref{ssec:ksat_vanilla} failed was because $w_S(\cdot)$ assigns 0 to $(-1,\ldots,-1)$
+and $1/(2^k-1)$ to all other vectors. On the other hand, for $\NAESAT$, $w_N(\cdot)$ assigns 0 to both $(-1,\ldots,-1)$ and $(1,\ldots,1)$ and hence satisfies Eqn.~
+\eqref{eqn:wv_sum}. Hence, we shall construct such a $w(\cdot)$. In addition to this, to sharpen the results, we need to make sure that $w$ is as close $w_S
+$ as possible. By a simple summation, Eqn.~\eqref{eqn:wv_sum} can also be written as
+$$
+\sum_{v \neq (-1,\ldots,-1)} \wv (2\abs{v} - k) = 0.
+$$
+where $\abs{v}$ is the number of 1s in $v$. We maximize entropy ($w_S$ is uniform and has maximum entropy) subject to this constraint to get $\wv \propto \l^{\abs{v}}$ with $\l$ satisfying $(1+\l)^{k-1} = 1/(1-\l)$.
+
+We therefore work with a weighing function
+$$
+\wsf \propto \prod_c \l^{L(\s,F)} \ind_{\s \in \sc}
+$$
+where $\lsf$ is the number of literals in $F$ satisfied by $\s$. This results in the following theorem.
+
+\begin{theorem}
+There exists a sequence $\b_k \to 0$ s.t. for all $k \geq 3$,
+$$
+r_k \geq 2^k \log 2 - 2(k+1) \log 2 - 1 - \b_k.
+$$
+\end{theorem}
+\begin{remark}
+Note that the second term is off by a factor of 4 as compared to Eqn.~\eqref{eqn:r_k_exact}. This is because of our constraint that $\wsf$ factor exactly over all clauses. It is possible to sharpen these bounds as shown in Sec.~\ref{ssec:sharper_bounds}. \todo{Also, in the following proof, we will neglect improper clauses, i.e., repeated or contradictory literals since there probability is at most $k^2/n = \smallo(n)$ of them. Similarly, we also let the model select clauses with replacement since w.h.p there are at most $\smallo(n)$ clauses that contain the same $k$ variables.}
+\end{remark}
+%
+\begin{proof}
+
+\end{proof}
+
+\subsection{Sharper bounds using measure transform}
+\label{ssec:sharper_bounds}
+
+\subsection{Upper bound}
+\label{ssec:upper_bound}
+\todo{We can get a simple upper bound for the phase transition. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.}
+
+\begin{remark}
+\todo{talk about the ``mist'' in the solution space}
+\end{remark}
+
+\section{Dynamical phase transition}
+\label{sec:dynamical_transition}
+
+\section{1-step replica symmetry breaking}
+\label{sec:1rsb}
+
+\section{Summary}
+\label{sec:summary}
 
 
 

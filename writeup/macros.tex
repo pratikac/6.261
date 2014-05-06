@@ -10,12 +10,12 @@
 \usepackage[bookmarks=true]{hyperref}
 %\usepackage[hyperpageref]{backref}
 \hypersetup{
-colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolor=blue,
+colorlinks=true, linkcolor=blue, citecolor=ForestGreen, filecolor=magenta, urlcolor=blue,
 }
 \usepackage{url, cite}
 
-\newcommand{\pc}[2]{{\color{blue} #1}\marginpar{\tiny\noindent{\raggedright{\color{darkgreen}[PC]}\color{brown}{ #2} \par}}}
-\newcommand{\todo}[1]{{\color{gray}#1}\marginpar{\tiny\noindent{\raggedright{\color{forestgreen}[MILD TODO]}}}}
+\newcommand{\pc}[2]{{\color{blue} #1}\marginpar{\tiny\noindent{\raggedright{\color{ForestGreen}[PC]}\color{brown}{ #2} \par}}}
+\newcommand{\todo}[1]{{\color{gray}#1}\marginpar{\tiny\noindent{\raggedright{\color{ForestGreen}[MILD TODO]}}}}
 
 %\newcommand{\myclearpage}{\clearpage}
 \newcommand{\myclearpage}{}
@@ -26,6 +26,8 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \newcommand{\given}{\, \vert \,}
 \providecommand{\cal}[1]{\ensuremath \mathcal{#1}}
 \newcommand{\ag}[1]{\ensuremath \left\langle#1\right\rangle}
+\providecommand\bigo{O}
+\providecommand\smallo{o}
 
 % shorcuts
 \newcommand{\aeq}[1]{\begin{align} #1 \end{align}}
@@ -45,6 +47,7 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \providecommand\f[2]{\ensuremath \frac{#1}{#2}}
 \providecommand\rbrac[1]{\ensuremath \left(#1\right)}
 \providecommand\sqbrac[1]{\ensuremath \left[#1\right]}
+\providecommand\cbrac[1]{\ensuremath \left\{#1\right\}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -76,8 +79,6 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \providecommand{\SAT}{\trm{SAT}}
 \providecommand{\NAESAT}{\trm{NAE-SAT}}
 \providecommand\sat{\models}
-\providecommand\bigo{O}
-\providecommand\smallo{o}
 \providecommand\ksat{k\trm{-SAT}}
 \providecommand\n[1]{\overline{#1}}
 \providecommand{\oor}{\vee}
@@ -88,8 +89,12 @@ colorlinks=true, linkcolor=blue, citecolor=darkgreen, filecolor=magenta, urlcolo
 \providecommand\s{\sigma}
 \renewcommand{\t}{\tau}
 \renewcommand{\a}{\alpha}
+\renewcommand{\b}{\beta}
 \renewcommand{\L}{\Lambda}
+\renewcommand{\l}{\lambda}
+
 \newcommand{\wsf}{w(\s,F)}
+\newcommand{\lsf}{L(\s,F)}
 \newcommand{\wsc}{w(\s,c)}
 \newcommand{\wv}{w(v)}
 \newcommand{\wu}{w(u)}
