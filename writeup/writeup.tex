@@ -14,6 +14,7 @@
 \setlength{\abovedisplayskip}{0.05in}
 \setlength{\belowdisplayskip}{0.05in}
 
+\graphicspath{{../fig/}}
 
 \title{Phase transitions in random $k$-SAT}
 \author{Pratik Chaudhari$^*$}
@@ -22,13 +23,16 @@ Email: \href{pratik.ac@gmail.com}{pratik.ac@gmail.com}}
 \date{May 3, 2014}
 
 \begin{document}
-\begin{abstract}
-This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. Next, we discuss ``dynamical phase transition'', i.e., phase transition into a ``glassy'' state and motivate an algorithm known as ``survey propagation'', which uses ideas from statistical physics to exploit the glassy structure of the solution space.
-\end{abstract}
 \maketitle
-
-\section{Introduction}
+{\small
+\textbf{\emph{Abstract:}}
 In recent years, it has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science such as satisfiability, error correcting codes etc. A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
+
+This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. Next, we discuss ``dynamical phase transition'', i.e., phase transition into a ``glassy'' state and motivate an algorithm known as ``survey propagation'', which uses ideas from statistical physics to exploit the glassy structure of the solution space.
+}
+
+% \section{Introduction}
+% In recent years, it has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science such as satisfiability, error correcting codes etc. A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
 
 
 \section{Setup}
@@ -68,9 +72,10 @@ To get a ball-park estimate, let us compute a simple upper bound for the phase t
 The idea behind this section is to get a non-zero lower bound in the limit for $P(X > 0)$, where $X$ is the number of solutions of random $\ksat$. We can then use the inequality $P(X>0) \geq \E[X]^2/\E[X^2]$. It is however instructive to note that we cannot weigh each satisfying assignment equally, the bounds are too loose that way. Let us briefly review why.
 
 For a random formula $F$, let $\sf$ be the set of satisfying assignments and let $X = \abs{\sf}$. If $F = c_1 \aand c_2 \ldots c_m$, we have
-\aeqs{
-\E[X^2] &= \E\sqbrac{\rbrac{\sum_\s \ind_{\s \in \sf}}^2} &&= \E\sqbrac{\sum_{\s,\t} \ind_{\s,\t \in \sf}} \\
+\aeq{
+\E[X^2] &= \E\sqbrac{\rbrac{\sum_\s \ind_{\s \in \sf}}^2} &&= \E\sqbrac{\sum_{\s,\t} \ind_{\s,\t \in \sf}} \notag \\
 &= \sum_{\s,\t} \E \sqbrac{\prod_c \ind_{\s,\t \in \sc}} &&= \sum_{\s,\t} \prod_c \E[\ind_{\s,\t \in \sc}].
+\label{eqn:calc_x2}
 }
 We can now see that
 $$
@@ -81,9 +86,10 @@ $$
 \E[X^2] = 2^n \sum_{z=0}^n {n \choose z} f_S(\a)^m,
 $$
 whereupon, using ${n \choose z} = \rbrac{\a^\a (1-\a)^{1-\a}}^{-n} poly(n)$, we have
-\aeqs{
-\E[X^2] &\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_S(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \\
+\aeq{
+\E[X^2] &\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_S(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \notag \\
 &:= \rbrac{\max_{0 \leq \a \leq 1} \L_S(\a)}^n poly(n).
+\label{eqn:Ls}
 }
 
 At the same time, note that
@@ -109,9 +115,9 @@ which still works for us because if we can prove $\E[X^2] = \bigo\rbrac{\E[X]^2}
 \E[X^2] %&= \sum_{\s,\t} \prod_c \E[\wsc \wtc]
 &= \sum_{\s,\t} \rbrac{\E[\wsc \wtc]}^m
 }
-where the clause $c = \ell_1 \aand \ldots \aand \ell_k$ is random. We want $\wsc$ to be independent of variable labels, so let it be $\wsc = \wv$ where $v_i =1$ if $\s \sat \ell_i$ and $-1$ otherwise.
+where the clause $c = \ell_1 \oor \ldots \oor \ell_k$ is random. We want $\wsc$ to be independent of variable labels, so let it be $\wsc = \wv$ where $v_i =1$ if $\s \sat \ell_i$ and $-1$ otherwise.
 
-$v \in A = \{-1,1\}^k$ and since the literals are drawn uniformly and independently, we have
+Let $v \in A = \{-1,1\}^k$ and since the literals are drawn uniformly and independently, we have
 $$
 \E[\wsc] = \sum_{v \in A} \wv 2^{-k}.
 $$
@@ -121,10 +127,11 @@ Similarly for $\s, \t$ with an overlap of $z =\a n$,
 &:= \sum_{u,v \in A} \wu \wv \puva := f_w(\a).
 }
 Again, we have
-\aeqs{
-\E[X^2] &= 2^n \sum_{z=0}^n {n \choose z} f_w(\a)^m \\
-&\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_w(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \\
+\aeq{
+\E[X^2] &= 2^n \sum_{z=0}^n {n \choose z} f_w(\a)^m \notag \\
+&\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_w(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \notag \\
 &:= \rbrac{\max_{0 \leq \a \leq 1} \L_w(\a)}^n poly(n)
+\label{eqn:Lw}
 }
 and $\E[X]^2 = \L_w(1/2)^n$. There are two aspects of the above expression which will help us get $\E[X^2]/\E[X]^2 = \bigo(1)$. $\L_w(\a)$ has a global maximum at $1/2$ and the $poly(n)$ factor above is instead $\bigo(1)$. The former requires that $f_w'(1/2) =0$. We thus have
 \aeqs{
@@ -155,25 +162,84 @@ $$
 where $\lsf$ is the number of literals in $F$ satisfied by $\s$. This results in the following theorem.
 
 \begin{theorem}
-There exists a sequence $\b_k \to 0$ s.t. for all $k \geq 3$,
+There exists a sequence $\b_k \to 0$ s.t. $\forall\ k \geq 22$,
 $$
 r_k \geq 2^k \log 2 - 2(k+1) \log 2 - 1 - \b_k.
 $$
+\label{thm:bound_weighted}
 \end{theorem}
 \begin{remark}
-Note that the second term is off by a factor of 4 as compared to Eqn.~\eqref{eqn:r_k_exact}. This is because of our constraint that $\wsf$ factor exactly over all clauses. It is possible to sharpen these bounds as shown in Sec.~\ref{ssec:sharper_bounds}. \todo{Also, in the following proof, we will neglect improper clauses, i.e., repeated or contradictory literals since there probability is at most $k^2/n = \smallo(n)$ of them. Similarly, we also let the model select clauses with replacement since w.h.p there are at most $\smallo(n)$ clauses that contain the same $k$ variables.}
+Note that the second term is off by a factor of 4 as compared to Eqn.~\eqref{eqn:r_k_exact}. This is because of our constraint that $\wsf$ factor exactly over all clauses. It is possible to sharpen these bounds as shown in Sec.~\ref{ssec:sharper_bounds}. Also, in the following proof, we will neglect improper clauses, i.e., repeated or contradictory literals since there probability is at most $k^2/n = \smallo(n)$ of them. Similarly, we also let the model select clauses with replacement since w.h.p there are at most $\smallo(n)$ clauses that contain the same $k$ variables.
 \end{remark}
 %
-\begin{proof}
-
+\begin{proof}[Sketch] Let $\hsf$ be the number of satisfied literal occurances in $F$ with $\s$ less the number of unsatisfied literals. Note that $\hsf = 2\lsf - k m$. For $0 < \g \leq 1$, let $X = \sum_\s \g^{\hsf} \ind_{\s \in \sf}$. Fix $\s$ and since liteals in $c = l_1 \oor \ldots \oor l_k$ are random, we have
+\aeqs{
+    \E \sqbrac{\g^\hsc \ind_{\s \in \sf}} &= \E\sqbrac{\g^\hsc} - \E\sqbrac{\g^{-k}\ind_{\s \notin \sc}}\\
+    &:=\psi(\g).\\
+    \implies \E[X] &= (2\psi(\g)^r)^n.
+}
+Similarly, if $\s, \t$ overlap in $\a n$ literals, we can get
+\aeq{
+    \E\sqbrac{\g^{\hsl + \htl}} &= \a \rbrac{\g^2 + \g^{-2}}/2 + 1 - \a \notag\\
+    \E\sqbrac{\g^{\hsl + \htl} \ind_{\s \notin \sc}} &= 2^{-k} (\a \g^{-2} + (1-\a)) \notag\\
+    \E\sqbrac{\g^{\hsl + \htl} \ind_{\s,\t \notin \sc}} &= 2^{-k} (\a \g^{-2}) \notag\\
+    \implies
+    \E\sqbrac{\g^{\hsc + \htc} \ind_{\s,\t \in \sc}} &= \f{f(\a)}{2^k(1-\e)^k}.
+    \label{eqn:g_st}
+}
+for some explicit $f(\a)$ and $\e = 1-\g^2$. Using the same calculations as in Eqn.~\eqref{eqn:calc_x2}, we get
+\beq{
+\E[X^2] = 2^n \sum_{z=0}^n {n \choose z} \rbrac{\f{f(\a)}{2^k(1-\e)^k}}^n.
+\label{eqn:x2_weighted}
+}
+The right hand side can be bounded by noting that only $\bigth(n^{1/2})$ of binomial coefficients dominate, i.e., if $g = \f{f(\a)}{\a^\a + (1-\a)^{1-\a}}$,
+and there exists $\a_{\max}$ s.t. $g(\a_{\max}) > g(\a)$ for all $\a \in (0,1)$ and $g''(\a_{\max}) < 0$; these conditions are true in our case for $k > 22$ and
+$$
+r < 2^k \log 2 -2 \log2(k+1) - 1 -3/k,
+$$
+then there exists $C > 0$ s.t.
+$$
+\E[X^2] < C\ \rbrac{\f{2 g(1/2)}{(2-2\e)^{kr}} }^n.
+$$
+where $\e = 1-\g^2$. Now observe that
+\beq{
+\E[X]^2 = \rbrac{\f{2 g(1/2)}{(2-2\e)^{kr}}}^{n}
+\label{eqn:weighted_ex_explicit}
+}
+and the proof is complete by Chebyshev's inequality--
+$$
+\P(X > 0) \geq \f{\E[X]^2}{\E[X^2]} \geq \f{1}{C}.
+$$
 \end{proof}
 
 \subsection{Sharper bounds using measure transform}
 \label{ssec:sharper_bounds}
 
-\begin{remark}
-\todo{talk about the ``mist'' in the solution space}
-\end{remark}
+This section hunts down the missing factor of 4 in Thm.~\ref{thm:bound_weighted}. We note that the dominant contributions to $\E[X^2]$ come from pairs where fewer than half their literals satisfied. Hence we construct
+$$\spf = \cbrac{\s \in \sf: \hsf > 0}$$
+(cf. proof of Thm.~\ref{thm:bound_weighted}). In Lem.~\ref{lem:dyn_moments_close}, we will show that $\E[X_+]/\E[X] \to 1/2$ a.s. where $X_+ = \sum_{\s \in \spf}\ \g^\hsf$. If this is true, consider Eqn.~\ref{eqn:g_st} with some $\e = 1 -\th^2$ with $\th^2 \geq \g^2$, we have
+\aeqs{
+\E\sqbrac{\g^{\hsf + \htf} \ind_{\s,\t \in \spf}} &\leq \E\sqbrac{\th^{\hsf + \htf} \ind_{\s,\t \in \spf}} \\
+&\leq \E\sqbrac{\g^{\hsf + \htf} \ind_{\s,\t \in \sf}}\\
+&:= f_2(\a, \e)^m.
+}
+where $f_2(\a,\e)$ is the same as $f(\a) (2-2\e)^{-k}$ from Eqn.~\eqref{eqn:g_st}. Since this holds for any $\e \leq 1 -\g^2$, we can write for $\e_0 = 1 - \g^2$
+\aeqs{
+\E\sqbrac{\g^{\hsf + \htf} \ind_{\s,\t \in \spf}} &\leq \sqbrac{\inf_{\e \leq \e_0} f_2(\a, \e)}^m \\
+\implies \E[X_+^2] &\leq 2^n \sum_{z=0}^n {n \choose z} \sqbrac{\inf_{\e \leq \e_0} f_2(\a, \e)}^m
+}
+Again truncate the binomial coefficients and note that from Lem.~\ref{lem:dyn_moments_close} and Eqn.~\eqref{eqn:weighted_ex_explicit}, we have
+$$
+5 \E[X_+^2] > \E[X]^2 = g(1/2, \e_0)^n.
+$$
+If we can now find a piecewise constant function $\xi$ such that $g(1/2,\e_0) > f_2(\a,\xi(\e))/(\a^\a + (1-\a)^{1-\a})$ we can again Chebyshev's inequality to the piecewise constant pieces to get $\P(X_+ > 0)$ with a new bound
+$$r_k > 2^k \log 2 -\f{\log 2}{2} (k+1) -1 -50k^3 2^{-k}.$$
+
+
+\begin{lemma}
+For some $\g$, as $n\to \infty$, we have $\f{\E[X_+]}{\E[X]} \to 1/2$.
+\label{lem:dyn_moments_close}
+\end{lemma}
 
 \section{Dynamical phase transition}
 \label{sec:dynamical_transition}
@@ -183,35 +249,53 @@ simple algorithm can find satisfying assignments for $r = \bigo(2^k/k)$ with
 high probability, it simply assigns a random value to a randomly unassigned variable and simplifies the clauses. In fact an algorithm based on belief
 propagation can solve instances upto $r = \bigth(2^k \log k/k)$ using an idea known as ``decimation''~\cite{montanari2007solving}. In Sec.~\ref{sec:sat_thresh}, we saw that $\ksat$ is in fact satisfiable for far more after that; it has solutions (w.h.p) until $r = 2^k \log 2 - O(k)$. This apparent discrepancy can
 be resolved with the following theorem towards which we work in this section.
+
+It turns out that the solution space, i.e., $\sf$ looks like a giant ball
+until $r = \bigo(2^k/k)$ and shatters into exponentially many clusters with
+exponentially small number of solutions in each as $r$ increases. We will use the Hamming distance between two satisfying instances $\s,\t$ and say that they are adjacent if $\abs{\s-\t} = 1$. A region is then the union of connected components of $\sf$.
+
 \begin{theorem}
-There exists a sequence $\e_k \to 0$ such that $\sf$ shatters for all
-$$
-(1 + \e_k) \f{2^k}{k} \log k \leq r \leq (1-\e_k) 2^k \log 2.
-$$
+For $0 < \d < 1/3$ and $r = (1-\d) 2^k \log 2$, for all $k > k_0(\d)$, there exist $\a < \b < 1/2$ such that $\sf$ consists of $2^{\e_k n}$, with $\e_k = \d/2 - 3/k^2$, non-empty cluster regions with diameter at most $\a n$ and distance between every pair of regions at least $\b n$.
 \label{thm:shatter}
 \end{theorem}
 %
-It turns out that the solution space, i.e., $\sf$ looks like a giant ball
-until $r = \bigo(2^k/k)$ and shatters into exponentially many clusters with
-exponentially small number of solutions in each as $r$ increases. Towards that end, let us define a few notions about the solution space.
-\clist{
-    \item We will use the Hamming distance between two satisfying instances $\s,\t$ and say that they are adjacent if $\abs{\s-\t} = 1$. \pc{A region is then the union of connected components of $\sf$.}{?}
-    \item The set of solutions $\sf$ ``shatters'' if there exist $\b, \g, \zeta > 0$ s.t. w.h.p,
-    \clist{
-    \item $\sf$ can be partitioned into at least $e^{\b n}$ regions with each region containing at most $e^{\g n}$ fraction of solutions;
-    \item any two regions are at least $\zeta n$ apart;
-    \item  every path between two solutions $\s, \t$ in distinct regions has a ``height'' at least $\th n$, i.e., maximum number of clauses
-    violated by any sequence $\s, \s_1, \ldots, \s_n, \t$ with at most unit distance between consecutive elements.
-    }
-}
 
+\subsection{Exponentially-many clusters}
+\label{ssec:exp_many_clusters}
+Note that in Eqn.~\eqref{eqn:Ls}, $\L_S(\a) = \E[\abs{\sf}]$ with overlap ratio of $\a$. For convenience, we introduce $\bL = \L_S(1-\a)$, i.e., expected number of pairs of solutions at a Hamming distance of $\a n$. The program is as follows: If there exists a $z$ s.t. there are no pairs of assignments at distance $z$, it is an upper bound for the diameter of a cluster. ALso, if we can find $\bL <1$ in an interval $(\a, \b)$, it is immediate that $\sf$ can be paritioned into regions (i.e., sets of clusters) with distance at least $\b n$ and diameter at most $\a n$.
 
-\section{1-step replica symmetry breaking}
-\label{sec:1rsb}
+We now show that there are exponentially-many such regions. In Sec.~\ref{ssec:ksat_weighted}, we showed that $\E[X^2] < C \max_{\a \in [0,1]} \L_w(\a)^n$ and since from the second moment method, we had $\E[X^2] < C\ \E[X]^2$; use the Payley-Zigmund inequality for $t \leq \E[X]$ to get
+$$
+\P(X > t) \geq \f{(\E[X]-t)^2}{\E[X^2]}.
+$$
+Now take $t = \E[X]/poly(n)$ and see that $X$ is within a polynomial factor of its expectation, i.e., $\L_w(1/2)^{n/2}$ with constant probability. It turns out that the event ``F has more than q solutions'' has a sharp threshold~\cite{achlioptas2008algorithmic} which implies that for $r < 2^k \log 2 - k$, $\abs{\sf} > \L_w(1/2)^{n/2}/poly(n)$ w.h.p.
+
+We now divide this by the upper bound of the cluster diameter, let $\D = \inf \cbrac{\a: \bL < 1}$ and $g_k = \max_{\a \in [0,\D]}\ \bL(\a,k)$. The expected number of pairs of solutions with distance \emph{at most} $\D n$ is then $B < poly(n)\ g_k^n$, since $\bL$ is expected pairs at particular distance $\a n$ and there at most $n+1$ distances. By Markov's inequality, this means that w.h.p. the number of pairs of solutions at dist. $\D n$ is $poly(n) g_k^n$. Since every region has size at most $\D n$, w.h.p. the number of pairs in each region is $poly(n) g_k^n$. and if we can show that $g_k < \L_w(1/2)$ we can see that $\sf$ has at least
+$$
+\f{1}{poly(n)}\ \rbrac{\f{\L_w(1/2)}{g_k}}^{n/2}
+$$
+clusters. The rest of the argument then shows that this happens for $\a = 1/k$ and $\b = 1/2 - 5/6\sqrt{\d}$ in Thm.~\ref{thm:shatter}. We do not discuss it here because it is just careful arithmetic, the case for $k > 15$ is analytical and $15 \geq k \geq 8$ is computational. Let us however note that Thm.~\ref{thm:shatter} is quite illuminative, as $r$ approaches the threshold $2^k \log 2$, the clusters are maximally far apart, in fact their size $1/k$ decreases and they vanish as soon as we cross this threshold. Fig.~\ref{fig:phase_chart} shows this phase transition phenomenon for 3-$\SAT$.
+
+Let us note that, using the results in this section, we can show~\cite{achlioptas2008algorithmic} that there exists a $\e_k \to 0$ s.t. the ``glassy'' phase with exponentially-many clusters exists for
+$$
+(1 +\e_k) \f{2^k}{k} \log 2 \leq r \leq (1-\e_k)\ 2^k \log 2.
+$$
+
+\begin{figure}
+\centering
+\includegraphics[width=.7\columnwidth]{phase_chart.jpg}
+\caption{Phase chart for random $\ksat$}
+\label{fig:phase_chart}
+\end{figure}
+
+\subsection{Frozen variables and survey propagation}
+\label{ssec:frozen_variables}
+
+% \section{1-step replica symmetry breaking}
+% \label{sec:1rsb}
 
 \section{Summary}
 \label{sec:summary}
-
 
 
 {
