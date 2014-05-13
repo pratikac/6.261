@@ -1,4 +1,4 @@
-\documentclass[letterpaper, 10pt, twocolumn, reqno]{amsart}
+ \documentclass[letterpaper, 10pt, twocolumn, reqno]{amsart}
 
 \usepackage{mathpazo}
 \include{./macros}
@@ -275,11 +275,12 @@ For $0 < \d < 1/3$ and $r = (1-\d) 2^k \log 2$, for all $k > k_0(\d)$, there exi
 \label{ssec:exp_many_clusters}
 Note that in Eqn.~\eqref{eqn:Ls}, $\L_S(\a) = \E[\abs{\sf}]$ with overlap ratio of $\a$. For convenience, we introduce $\bL = \L_S(1-\a)$, i.e., expected number of pairs of solutions at a Hamming distance of $\a n$. The program is as follows: If there exists a $z$ s.t. there are no pairs of assignments at distance $z$, it is an upper bound for the diameter of a cluster. ALso, if we can find $\bL <1$ in an interval $(\a, \b)$, it is immediate that $\sf$ can be paritioned into regions (i.e., sets of clusters) with distance at least $\b n$ and diameter at most $\a n$.
 
-We now show that there are exponentially-many such regions. In Sec.~\ref{ssec:ksat_weighted}, we showed that $\E[X^2] < C \max_{\a \in [0,1]} \L_w(\a)^n$ and since from the second moment method, we had $\E[X^2] < C\ \E[X]^2$; use the Payley-Zigmund inequality for $t \leq \E[X]$ to get
+We now show that there are exponentially-many such regions. In Sec.~\ref{ssec:ksat_weighted}, we showed $\E[X^2] < C \max_{\a \in [0,1]} \L_w(\a)^n$ and since from the second moment method, we had $\E[X^2] < C \E[X]^2$; use the Payley-Zigmund inequality for $t \leq \E[X]$ to get
 $$
 \P(X > t) \geq \f{(\E[X]-t)^2}{\E[X^2]}.
 $$
-Now take $t = \E[X]/poly(n)$ and see that $X$ is within a polynomial factor of its expectation, i.e., $\L_w(1/2)^{n/2}$ with constant probability. It turns out that the event ``F has more than q solutions'' has a sharp threshold~\cite{achlioptas2008algorithmic} which implies that for $r < 2^k \log 2 - k$, $\abs{\sf} > \L_w(1/2)^{n/2}/poly(n)$ w.h.p.
+Now take $t = \E[X]/poly(n)$ and see that $X$ is within a polynomial factor of its expectation, i.e., $\L_w(1/2)^{n/2}$ with constant probability. It turns out that the event ``$F$ has more than $q$ solutions'' has a sharp threshold~\cite{achlioptas2008algorithmic} which implies that for $r < 2^k \log 2 - k$,
+$$\abs{\sf} > \L_w(1/2)^{n/2}/poly(n) \quad \trm{w.h.p.}$$
 
 We now divide this by the upper bound of the cluster diameter, let $\D = \inf \cbrac{\a: \bL < 1}$ and $g_k = \max_{\a \in [0,\D]}\ \bL(\a,k)$. The expected number of pairs of solutions with distance \emph{at most} $\D n$ is then $B < poly(n)\ g_k^n$, since $\bL$ is expected pairs at particular distance $\a n$ and there at most $n+1$ distances. By Markov's inequality, this means that w.h.p. the number of pairs of solutions at dist. $\D n$ is $poly(n) g_k^n$. Since every region has size at most $\D n$, w.h.p. the number of pairs in each region is $poly(n) g_k^n$. and if we can show that $g_k < \L_w(1/2)$ we can see that $\sf$ has at least
 $$
