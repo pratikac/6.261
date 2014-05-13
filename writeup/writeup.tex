@@ -10,7 +10,7 @@
 \setlength{\textfloatsep}{0.0in}
 \setlength{\intextsep}{0.0in}
 \setlength{\belowcaptionskip}{0.05in}
-\setlength{\abovecaptionskip}{0.1in}
+\setlength{\abovecaptionskip}{0.05in}
 \setlength{\abovedisplayskip}{0.05in}
 \setlength{\belowdisplayskip}{0.05in}
 
@@ -26,14 +26,22 @@ Email: \href{pratik.ac@gmail.com}{pratik.ac@gmail.com}}
 \maketitle
 {\small
 \textbf{\emph{Abstract:}}
-In recent years, it has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science such as satisfiability, error correcting codes etc. A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
-
-This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. Next, we discuss ``dynamical phase transition'', i.e., phase transition into a ``glassy'' state and motivate an algorithm known as ``survey propagation'', which uses ideas from statistical physics to exploit the glassy structure of the solution space.
+This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. We look at bounds for random $k-\SAT$ formulae and motivate the structure of the solution space using these arguments. Next, we briefly discuss the phenomenon of ``dynamical phase transition'', i.e., phase transition into a ``glassy'' state wherein, the solution space is clustered into exponentially many small clusters. The glassy phase has been a major bottleneck for naive ``local'' algorithms for satisfiability.
 }
 
-% \section{Introduction}
-% In recent years, it has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science such as satisfiability, error correcting codes etc. A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
+\section{Introduction}
+\label{sec:intro}
+It has become increasingly apparent that phenomenon in statistical physics such as phase transitions and glassy phases have a strong bearing on important problems in computer science and information theory such as satisfiability, error correcting codes etc. Realizing that extreme slowdown in algorithms for these problems and glassy phase transitions occur hand in hand is interesting both theoretically, and also promises to provide insights into faster, more efficient algorithms. This has spurred interest in ideas from statistical physics such as ``replica symmetry'' and ``cavity method'', which are the basis of state-of-the-art algorithms, e.g., ``survey propagation''.
+\pc{write about compressed sensing}{}
+% On a related note, the same concepts have also triggered development in the compressed sensing literature. The theoretical limit for the ratio of the number of measurements $m$ needed to recover an $n$-dimensional signal is its sparsity ratio. Algorithms based on L1 minimization cannot reach this limit and it turns out that there exists a sharp threshold when the solution phase
 
+% A number of recent works such as~\cite{krzakala2012statistical} have also drawn connections between compressed sensing and statistical physics.
+
+Motivated by this literature, we look at phase transitions in random $\ksat$ problems. We will use the second moment method to obtain bounds for clause
+densities at which $\ksat$ becomes unsatisfiable with high probability. This is however not very illuminative, it was noticed that a number of (randomized)
+polynomial time algorithms do not work close to the satisfiability threshold. Towards this end, we will also discuss dynamical phase transition, which is
+when the solution space of $\ksat$ changes drastically --- it goes from looking like a giant ball to the ``error correcting code'' regime. We will
+briefly discuss some of these results. Let us first introduce the problem setup for random $\ksat$.
 
 \section{Setup}
 \label{sec:setup}
@@ -57,17 +65,26 @@ r_k \geq 2^k \log2 - (k+1)\f{\log2}{2} - \bigo(1).
 \label{ssec:2sat}
 2-SAT has a special structure, observe that $\n{x_1} \oor x_2$ is equivalent to $x_1 \implies x_2$, i.e., given $F_2(n, rn)$, we can construct a graph with
 vertices $x_1, \n{x_1}, x_2, \ldots, \n{x_n}$ and an edge from $x_1$ to $x_2$ and $\n{x_2}$ to $\n{x_1}$. It can be shown that $F_2(n,rn) \notin \SAT$ iff
-there exists a path from some $x_k$ to $\n{x_k}$ and from $\n{x_k}$ to $x_k$, i.e., a bicycle. Let the length of this bicycle be $s$ if the path $(u, w_1, w_2
-, \ldots, w_s, v)$ with $u,v \in \{w_1, \ldots, w_s,\n{w_1}, \ldots, \n{w_s}\}$
+there exists a path from some $x_k$ to $\n{x_k}$ and from $\n{x_k}$ to $x_k$, i.e., a bicycle. Indeed, if $\s$ satisfies $x_k$, then by following the implications,
+we get that $\s$ satisfies $\n{x_k}$ as well and vice-versa. Also, if there does not exist a bicycle and the formula is not $\SAT$, we can simply set one of the
+variables to 1 and follow the implications; we can keep doing this because there are no bicycles, and we arrive at a solution of $F_2(n, rn)$. So the
+assumption that $F_2(n,rn) \in \SAT$ is false.
+
+Let the length of this bicycle be $s$ if the path
+$$(u, w_1, w_2, \ldots, w_s, v)$$
+with $u,v \in \{w_1, \ldots, w_s,\n{w_1}, \ldots, \n{w_s}\}$
 exists. The probability of this happening is
 $$
-\P(F_2(n,rn) \notin \SAT) \leq \sum_{s=2}^n {n \choose s} s^2 (2s)^2 {m \choose s+1} \rbrac{\f{1}{4 {n \choose 2}}}^{s+1}
+\P(F_2(n,rn) \notin \SAT) \leq \sum_{s=2}^n \binom{n}{s} s^2 (2s)^2 \binom{m}{s+1} \rbrac{\f{1}{4 \binom{n}{2}}}^{s+1},
 $$
-By direct summation, it is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e., $r_2^* < 1$. Using Eqn.~\eqref{eqn:r_k_exact} we see that $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$.
+where we have used Markov's inequality to bound the probablity. By direct summation, it is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e., $r_2^* < 1$. Using Eqn.~\eqref{eqn:r_k_exact} we see that $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$.
 
-\subsection{Vanilla second moment for $\ksat$}
+\subsection{Vanilla second moment method}
 \label{ssec:ksat_vanilla}
-To get a ball-park estimate, let us compute a simple upper bound for the phase transition. The number of all possible $k$-clauses is $C_k = 2^k {n \choose k}$ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) {n \choose k}$. Thus the probability of $F \in \SAT$ is ${S_k \choose m}/{C_k \choose m} < (1-2^{-k})^m$, which means that the expected number of satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.
+To get a ball-park estimate, let us compute a simple upper bound for the phase
+transition. The number of all possible $k$-clauses is $C_k = 2^k \binom{n}{k}$
+ while the number of clauses satisfied by a given random assignment is $S_k = (2^k -1) \binom{n}{k}$. Thus the probability of $F \in \SAT$ is $\binom{S_k}{m}/\binom{C_k}{m} < (1-2^{-k})^m$, which means that the expected number of
+satisfying assignments is $2^n (1-2^{-k})^{rn} = \smallo(1)$ for $r > 2^k \log 2$ which implies $r_k^* < 2^k \log 2$.
 
 The idea behind this section is to get a non-zero lower bound in the limit for $P(X > 0)$, where $X$ is the number of solutions of random $\ksat$. We can then use the inequality $P(X>0) \geq \E[X]^2/\E[X^2]$. It is however instructive to note that we cannot weigh each satisfying assignment equally, the bounds are too loose that way. Let us briefly review why.
 
@@ -83,9 +100,9 @@ $$
 $$
 where $\s$ and $\t$ assign the same value to $z = \a n$ variables. This follows because if $\s \not\sat c$, the only way for $\t \not\in c$ is for all $k$ variables in $c$ to lie in the overlap. $f_S$ thus quantifies the correlation between $\s,\t$ being satisfying. We now have
 $$
-\E[X^2] = 2^n \sum_{z=0}^n {n \choose z} f_S(\a)^m,
+\E[X^2] = 2^n \sum_{z=0}^n \binom{n}{z} f_S(\a)^m,
 $$
-whereupon, using ${n \choose z} = \rbrac{\a^\a (1-\a)^{1-\a}}^{-n} poly(n)$, we have
+whereupon, using $\binom{n}{z} = \rbrac{\a^\a (1-\a)^{1-\a}}^{-n} poly(n)$, we have
 \aeq{
 \E[X^2] &\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_S(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \notag \\
 &:= \rbrac{\max_{0 \leq \a \leq 1} \L_S(\a)}^n poly(n).
@@ -105,7 +122,7 @@ $$
 $$
 which is symmetric about $\a = 1/2$ and as a result, $\L_N(\a)$ has a maxima at $1/2$ for $r \leq 2^{k-1} \log2 -1$. It was shown in~\cite{achlioptas2002asymptotic} that for $r \geq 2^{k-1} \log2$, $\NAESAT$ is not satisfiable, i.e., the second moment method actually gives bounds within additive constant.
 
-\subsection{Weighted second moment for $\ksat$}
+\subsection{Weighted second moment method}
 \label{ssec:ksat_weighted}
 We next use this intuition to construct a weighted second moment method. Let $\wsf$ be some function and $\wsf = 0$ if $\s \notin \sf$. Let $\wsf$ factor exactly over the clauses to give
 $$X = \sum_\s \wsf = \sum_\s \prod_c \wsc$$
@@ -128,7 +145,7 @@ Similarly for $\s, \t$ with an overlap of $z =\a n$,
 }
 Again, we have
 \aeq{
-\E[X^2] &= 2^n \sum_{z=0}^n {n \choose z} f_w(\a)^m \notag \\
+\E[X^2] &= 2^n \sum_{z=0}^n \binom{n}{z} f_w(\a)^m \notag \\
 &\leq 2^n \rbrac{\max_{0 \leq \a \leq 1} \sqbrac{ \f{f_w(\a)^r}{\a^\a (1-\a)^{1-\a}} } }^n poly(n) \notag \\
 &:= \rbrac{\max_{0 \leq \a \leq 1} \L_w(\a)}^n poly(n)
 \label{eqn:Lw}
@@ -189,7 +206,7 @@ Similarly, if $\s, \t$ overlap in $\a n$ literals, we can get
 }
 for some explicit $f(\a)$ and $\e = 1-\g^2$. Using the same calculations as in Eqn.~\eqref{eqn:calc_x2}, we get
 \beq{
-\E[X^2] = 2^n \sum_{z=0}^n {n \choose z} \rbrac{\f{f(\a)}{2^k(1-\e)^k}}^n.
+\E[X^2] = 2^n \sum_{z=0}^n \binom{n}{z} \rbrac{\f{f(\a)}{2^k(1-\e)^k}}^n.
 \label{eqn:x2_weighted}
 }
 The right hand side can be bounded by noting that only $\bigth(n^{1/2})$ of binomial coefficients dominate, i.e., if $g = \f{f(\a)}{\a^\a + (1-\a)^{1-\a}}$,
@@ -216,7 +233,7 @@ $$
 \label{ssec:sharper_bounds}
 
 This section hunts down the missing factor of 4 in Thm.~\ref{thm:bound_weighted}. We note that the dominant contributions to $\E[X^2]$ come from pairs where fewer than half their literals satisfied. Hence we construct
-$$\spf = \cbrac{\s \in \sf: \hsf > 0}$$
+$\spf = \cbrac{\s \in \sf: \hsf > 0}$
 (cf. proof of Thm.~\ref{thm:bound_weighted}). In Lem.~\ref{lem:dyn_moments_close}, we will show that $\E[X_+]/\E[X] \to 1/2$ a.s. where $X_+ = \sum_{\s \in \spf}\ \g^\hsf$. If this is true, consider Eqn.~\ref{eqn:g_st} with some $\e = 1 -\th^2$ with $\th^2 \geq \g^2$, we have
 \aeqs{
 \E\sqbrac{\g^{\hsf + \htf} \ind_{\s,\t \in \spf}} &\leq \E\sqbrac{\th^{\hsf + \htf} \ind_{\s,\t \in \spf}} \\
@@ -226,7 +243,7 @@ $$\spf = \cbrac{\s \in \sf: \hsf > 0}$$
 where $f_2(\a,\e)$ is the same as $f(\a) (2-2\e)^{-k}$ from Eqn.~\eqref{eqn:g_st}. Since this holds for any $\e \leq 1 -\g^2$, we can write for $\e_0 = 1 - \g^2$
 \aeqs{
 \E\sqbrac{\g^{\hsf + \htf} \ind_{\s,\t \in \spf}} &\leq \sqbrac{\inf_{\e \leq \e_0} f_2(\a, \e)}^m \\
-\implies \E[X_+^2] &\leq 2^n \sum_{z=0}^n {n \choose z} \sqbrac{\inf_{\e \leq \e_0} f_2(\a, \e)}^m
+\implies \E[X_+^2] &\leq 2^n \sum_{z=0}^n \binom{n}{z} \sqbrac{\inf_{\e \leq \e_0} f_2(\a, \e)}^m
 }
 Again truncate the binomial coefficients and note that from Lem.~\ref{lem:dyn_moments_close} and Eqn.~\eqref{eqn:weighted_ex_explicit}, we have
 $$
@@ -265,6 +282,13 @@ It turns out that the solution space, i.e., $\sf$ looks like a giant ball
 until $r = \bigo(2^k/k)$ and shatters into exponentially many clusters with
 exponentially small number of solutions in each as $r$ increases. We will use the Hamming distance between two satisfying instances $\s,\t$ and say that they are adjacent if $\abs{\s-\t} = 1$. A region is then the union of connected components of $\sf$.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=.7\columnwidth]{phase_chart.jpg}
+\caption{Phase chart for random $\ksat$}
+\label{fig:phase_chart}
+\end{figure}
+
 \begin{theorem}
 For $0 < \d < 1/3$ and $r = (1-\d) 2^k \log 2$, for all $k > k_0(\d)$, there exist $\a < \b < 1/2$ such that $\sf$ consists of $2^{\e_k n}$, with $\e_k = \d/2 - 3/k^2$, non-empty cluster regions with diameter at most $\a n$ and distance between every pair of regions at least $\b n$.
 \label{thm:shatter}
@@ -293,12 +317,6 @@ $$
 (1 +\e_k) \f{2^k}{k} \log 2 \leq r \leq (1-\e_k)\ 2^k \log 2.
 $$
 
-\begin{figure}
-\centering
-\includegraphics[width=.7\columnwidth]{phase_chart.jpg}
-\caption{Phase chart for random $\ksat$}
-\label{fig:phase_chart}
-\end{figure}
 
 \subsection{Frozen variables and survey propagation}
 \label{ssec:frozen_variables}
