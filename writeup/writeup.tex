@@ -5,8 +5,8 @@
 \usepackage[margin=0.75in]{geometry}
 \linespread{1.05}
 
-\usepackage[marginal]{showlabels}
-\renewcommand{\showlabelfont}{\footnotesize\slshape\color{brown}}
+% \usepackage[marginal]{showlabels}
+% \renewcommand{\showlabelfont}{\footnotesize\slshape\color{brown}}
 
 \newcommand{\algsize}{\footnotesize}
 \setlength{\floatsep}{0.0in}
@@ -326,9 +326,11 @@ $$
 Take $t = \E[X]/poly(n)$ and see that $X$ is within a polynomial factor of its expectation, i.e., $\L_w(1/2)^{n/2}$ with constant probability. It turns out that the event ``$F$ has more than $q$ solutions'' has a sharp threshold~\cite{achlioptas2008algorithmic} which implies that for $r < 2^k \log 2 - k$,
 $$\abs{\sf} > \L_w(1/2)^{n/2}/poly(n) \quad \trm{w.h.p.}$$
 
-We now divide this by the upper bound of the cluster diameter, let $\D = \inf \cbrac{\a: \bL < 1}$ and $g_k = \max_{\a \in [0,\D]}\ \bL(\a,k)$. The expected
+We now divide this by the upper bound of the cluster diameter, let $\D = \inf \cbrac{\a: \bL < 1}$ and
+$$g_k = \max_{\a \in [0,\D]}\ \bL(\a,k).$$
+The expected
 number of pairs of solutions with distance \emph{at most} $\D n$ is then
-$$B < poly(n)\ g_k^n,$$
+$B < poly(n)\ g_k^n,$
 since $\bL$ is expected pairs at particular distance $\a n$
 and there are most $n+1$ distances. By Markov's inequality, this means that w.h.p. the number of pairs of solutions at dist. $\D n$ is $poly(n) g_k^n$. Since
 every region has size at most $\D n$, w.h.p. the number of pairs in each region is $poly(n) g_k^n$. and if we can show that $g_k < \L_w(1/2)$ we can
@@ -343,15 +345,19 @@ $$
 (1 +\e_k) \f{2^k}{k} \log 2 \leq r \leq (1-\e_k)\ 2^k \log 2.
 $$
 
+\subsection{Survey propagation}
+\label{ssec:survey_propagation}
 
-\subsection{Frozen variables and survey propagation}
-\label{ssec:frozen_variables}
+As we saw in Sec.~\ref{ssec:exp_many_clusters}, the solution space of $\ksat$ near the transition threshold lies in the ``error coding regime'' or the ``glassy'' phase, i.e., it consists of exponentially many clusters with exponentially few solutions in each cluster. Note that, random $\ksat$ is not a hard problem per se, below the dynamical transition threshold, exponentially many solutions exist. It turns out that local algorithms based on belief propagation (BP), warning propagation (WP) etc. work well when there are short-range correlations among variables in the factor graph in SAT. Roughly, assumes that the variables in a clause are uncorrelated if that clause is removed (this is true only for trees). This is true only in the ``giant ball'' phase before dynamical phase transition.
 
-% \section{1-step replica symmetry breaking}
-% \label{sec:1rsb}
+On the other hand, as shown in~\cite{achlioptas2006solution}, a large fraction of variables in every cluster region are ``frozen'', i.e., they take the same value for all the satisfying assignments in the cluster. Moreover, they correlate strongly with values of frozen variables in neighboring clusters, which is why message passing algorithms on the random factor graph do not work well.
+
+Survey propagation (SP)~\cite{braunstein2005survey} then, is an algorithm based on the cavity method from statistical physics. Roughly, it sends a warning message (i.e., $\mu^\a(a, i) = 1$) from a factor $a$ to a variable $i$, if all the satisfying assignments of some cluster region $\a$ are such that they do not satisfy $a$, in other words, variable $i$ has the complete responsibility of satisfying $a$. Every cluster region is picked with a probability proportional to the number of satisfying assignments in it. SP therefore hinges on explicitly introducing long-range correlations among different cluster regions. This method is also known as 1-step replica symmetry breaking in statistical physics.
 
 \section{Summary}
 \label{sec:summary}
+
+This project discussed phase transition phenomenon in the solution space of random satisfiability problems. We derived bounds for the satisfiability transition threshold using the first and second moment methods for random 2$\SAT$ and $\ksat$. We also briefly explored the phenomenon of dynamical phase transition, wherein the solution space changes drastically and bifurcates into exponentially many clusters. This was used to discuss survey propagation that is one of the state-of-the-art solvers for random satisfiability problems.
 
 
 {
