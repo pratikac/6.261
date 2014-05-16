@@ -29,7 +29,7 @@ Email: \href{pratik.ac@gmail.com}{pratik.ac@gmail.com}}
 \maketitle
 {\small
 \textbf{\emph{Abstract:}}
-This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. We look at bounds for random $k-\SAT$ formulas and motivate the structure of the solution space using these arguments. Next, we briefly discuss the phenomenon of ``dynamical phase transition'', i.e., phase transition into a ``glassy'' state wherein, the solution space is clustered into exponentially many small clusters. The glassy phase has been a major bottleneck for naive ``local'' algorithms for satisfiability.
+This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. We look at bounds for random $k-\SAT$ formulas and motivate the structure of the solution space using these arguments. Next, we briefly discuss the phenomenon of dynamical phase transition, i.e., transition into a glassy phase wherein, the solution space has exponentially many small clusters. The glassy phase has been a major bottleneck local algorithms using message passing to compute satisfying assignments for random $\ksat$.
 }
 
 \section{Introduction}
@@ -46,7 +46,7 @@ when the solution space of $\ksat$ changes drastically --- it goes from looking 
 
 \section{Setup}
 \label{sec:setup}
-A $k$-clause is a disjunction of $k$ Boolean variables, given $n$ Boolean
+A $k$-clause is a disjunction of $k$ Boolean variables. Given $n$ Boolean
 variables, a random $k$-CNF formula, $F_k(n, m)$ is formed by conjunction of $m = rn$ such $k$-clauses, selected uniformly and independently with
 replacement from the set of all $k$-clauses on these $n$ variables. We assume that all formulas are in conditional normal form (CNF) and call this model ``random $\ksat$''. Let $\SAT$ be the set of all satisfiable formulas. Also,
 let $r_k = \sup \{ r: F_k(n, rm) \in \SAT \}$ and $r_k^* = \inf \{ r: F_k(n, rn) \not\in \SAT \}$. Note that we always talk of $F_k(n,rn) \in \SAT$ with high probability, i.e., $\lim_{n\to \infty} \P(F_k(n,rn) \in \SAT) = 1$ if $r < r_k$.
@@ -304,7 +304,7 @@ exponentially small number of solutions in each as $r$ increases. We will use th
 \begin{figure}[H]
 \centering
 \includegraphics[width=.7\columnwidth]{phase_chart}
-\caption{Phase chart for random $\ksat$}
+\caption{Phase chart for random 3-$\SAT$}
 \label{fig:phase_chart}
 \end{figure}
 
@@ -348,7 +348,7 @@ $$
 \subsection{Survey propagation}
 \label{ssec:survey_propagation}
 
-As we saw in Sec.~\ref{ssec:exp_many_clusters}, the solution space of $\ksat$ near the transition threshold lies in the ``error coding regime'' or the ``glassy'' phase, i.e., it consists of exponentially many clusters with exponentially few solutions in each cluster. Note that, random $\ksat$ is not a hard problem per se, below the dynamical transition threshold, exponentially many solutions exist. It turns out that local algorithms based on belief propagation (BP), warning propagation (WP) etc. work well when there are short-range correlations among variables in the factor graph in SAT. Roughly, assumes that the variables in a clause are uncorrelated if that clause is removed (this is true only for trees). This is true only in the ``giant ball'' phase before dynamical phase transition.
+As we saw in Sec.~\ref{ssec:exp_many_clusters}, the solution space of $\ksat$ near the transition threshold lies in the ``error correcting code regime'' or the ``glassy'' phase, i.e., it consists of exponentially many clusters with exponentially few solutions in each cluster. Note that, random $\ksat$ is not a hard problem per se, below the dynamical transition threshold, exponentially many solutions exist. It turns out that local algorithms based on belief propagation (BP), warning propagation (WP) etc. work well when there are short-range correlations among variables in the factor graph in SAT. Roughly, BP assumes that the variables in a clause are uncorrelated if that clause is removed (this is true only for trees). This is true only when the solution space looks like a ``giant ball''.
 
 On the other hand, as shown in~\cite{achlioptas2006solution}, a large fraction of variables in every cluster region are ``frozen'', i.e., they take the same value for all the satisfying assignments in the cluster. Moreover, they correlate strongly with values of frozen variables in neighboring clusters, which is why message passing algorithms on the random factor graph do not work well.
 
@@ -357,7 +357,7 @@ Survey propagation (SP)~\cite{braunstein2005survey} then, is an algorithm based 
 \section{Summary}
 \label{sec:summary}
 
-This project discussed phase transition phenomenon in the solution space of random satisfiability problems. We derived bounds for the satisfiability transition threshold using the first and second moment methods for random 2$\SAT$ and $\ksat$. We also briefly explored the phenomenon of dynamical phase transition, wherein the solution space changes drastically and bifurcates into exponentially many clusters. This was used to discuss survey propagation that is one of the state-of-the-art solvers for random satisfiability problems.
+This project discussed phase transition phenomenon in the solution space of random satisfiability problems. We derived bounds for the satisfiability transition threshold using the first and second moment methods for random 2-$\SAT$ and $\ksat$. We also briefly explored the phenomenon of dynamical phase transition, wherein the solution space changes drastically and bifurcates into exponentially many clusters. This was used to discuss survey propagation that is one of the state-of-the-art solvers for random satisfiability problems.
 
 
 {
