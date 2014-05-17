@@ -29,7 +29,7 @@ Email: \href{pratik.ac@gmail.com}{pratik.ac@gmail.com}}
 \maketitle
 {\small
 \textbf{\emph{Abstract:}}
-This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. We look at bounds for random $k-\SAT$ formulas and motivate the structure of the solution space using these arguments. Next, we briefly discuss the phenomenon of dynamical phase transition, i.e., transition into a glassy phase wherein, the solution space has exponentially many small clusters. The glassy phase has been a major bottleneck local algorithms using message passing to compute satisfying assignments for random $\ksat$.
+This project discuses bounds for sharp transition thresholds in random satisfiability problems using the second moment method. We look at bounds for random $k-\SAT$ formulas and motivate the structure of the solution space using these arguments. Next, we briefly discuss the phenomenon of dynamical phase transition, i.e., transition into a glassy phase wherein, the solution space has exponentially many small clusters. The glassy phase has been a major bottleneck for local algorithms using message passing to compute satisfying assignments for random $\ksat$.
 }
 
 \section{Introduction}
@@ -78,7 +78,7 @@ exists. The probability of this happening, by Markov's inequality, is
 $$
 \P(F_2(n,rn) \notin \SAT) \leq \sum_{s=2}^n \binom{n}{s} s^2 (2s)^2 \binom{m}{s+1} \rbrac{\f{1}{4 \binom{n}{2}}}^{s+1}.
 $$
-By direct summation, it is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e., $r_2^* < 1$. This was an example of the first moment method. Using the second moment method, similar to Sec.~\ref{ssec:ksat_weighted}, we can get $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$. We do this by counting the number of snakes, i.e., cycles where $u = \n{v}$ and $u \in \cbrac{w_1, \ldots, w_s}$. Note the nature of this analysis, to make the second moment work, we have to resort to consider only a subset of all bicycles.
+By direct summation, it is easy to see that this is $\bigo(1/n)$ iff $r <1$, i.e., $r_2^* < 1$. This was an example of the first moment method. Using the second moment method, similar to Sec.~\ref{ssec:ksat_weighted}, we can get $r_2 > 1$, i.e., the phase transition threshold is simply $r = 1$. We do this by counting the number of snakes, i.e., cycles where $u = \n{v}$ and $u \in \cbrac{w_1, \ldots, w_s}$. Note the nature of this analysis, to make the second moment work, we have to resort to considering only a subset of all bicycles.
 
 \subsection{Vanilla second moment method}
 \label{ssec:ksat_vanilla}
